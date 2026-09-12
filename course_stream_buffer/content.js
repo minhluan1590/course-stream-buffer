@@ -7,6 +7,7 @@
   const activeVideos = new Set();
   let showDiagnostics = false;
   let overlay;
+  let scheduledScan;
 
   function bufferedAhead(video) {
     if (!video.buffered?.length) return 0;
@@ -76,6 +77,14 @@
     updateOverlay();
   }
 
+  function scheduleScan() {
+    if (scheduledScan) return;
+    scheduledScan = setTimeout(() => {
+      scheduledScan = undefined;
+      scan();
+    }, 250);
+  }
+
   function applySettings(values) {
     showDiagnostics = Boolean(values[STORAGE_KEY]);
     updateOverlay();
@@ -83,8 +92,8 @@
 
   function bootstrap() {
     scan();
-    new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
-    setInterval(scan, 2000);
+    new MutationObserver(scheduleScan).observe(document.documentElement, { childList: true, subtree: true });
+    setInterval(scheduleScan, 5000);
   }
 
   if (chrome?.storage?.sync) {
