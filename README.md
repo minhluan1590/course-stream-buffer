@@ -1,11 +1,11 @@
 # Course Stream Buffer
 
-Course Stream Buffer requests a bounded 60-second buffer from compatible Udemy players. It never changes playback speed, calls `video.load()`, or opens additional playback sessions.
+Course Stream Buffer requests an experimental bounded 300-second buffer from compatible Udemy players. It never changes playback speed, calls `video.load()`, or opens additional playback sessions.
 
 ## Features
 
 - Applies `preload="auto"` to detected `<video>` elements.
-- Requests a 60-second player buffer exactly once when the compatible player becomes available.
+- Requests a 300-second player buffer exactly once when the compatible player becomes available.
 - Shows the browser-reported buffered-ahead time and player result on demand.
 - Optional in-page diagnostic overlay (hidden by default).
 - Does not call `video.load()` or reconfigure a player while you seek, avoiding MediaSource playback interruptions.
@@ -66,7 +66,7 @@ Public release page:
 
 ## Notes
 
-Udemy uses an adaptive MediaSource stream. The site, your connection, and its DRM/CDN controls can cap the configured goal, so 60 seconds is a request rather than a guarantee. The extension never forces unlimited buffering or creates extra authenticated video sessions.
+Udemy uses an adaptive MediaSource stream. The site, your connection, and its DRM/CDN controls can cap the configured goal, so 300 seconds is an experimental request rather than a guarantee. The extension never forces unlimited buffering or creates extra authenticated video sessions.
 
 ## License
 

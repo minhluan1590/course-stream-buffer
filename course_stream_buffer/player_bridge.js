@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const TARGET_SECONDS = 60;
+  const TARGET_SECONDS = 300;
   const configuredPlayers = new WeakSet();
   const attemptsByVideo = new WeakMap();
   const MAX_ATTEMPTS = 12;
@@ -102,7 +102,7 @@
       const actual = after?.streaming?.bufferingGoal;
       if (typeof actual === "number" && actual >= TARGET_SECONDS) {
         configuredPlayers.add(video);
-        setStatus(`60s target applied (${Math.round(actual)}s)`);
+        setStatus(`300s target applied (${Math.round(actual)}s)`);
       } else {
         setStatus(`player capped target at ${Math.round(actual || 0)}s`);
       }

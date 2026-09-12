@@ -4,7 +4,7 @@
   const STORAGE_KEY = "courseStreamShowDiagnostics";
   const OVERLAY_ID = "csb-debug-overlay";
   const ATTACH_MARK = "courseBufferAttached";
-  const BUFFER_TARGET_SECONDS = 60;
+  const BUFFER_TARGET_SECONDS = 300;
   const activeVideos = new Set();
   let showDiagnostics = false;
   let overlay;
