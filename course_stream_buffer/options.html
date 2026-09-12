@@ -21,13 +21,13 @@
   <body>
     <div class="box">
       <h1>Course Stream Buffer</h1>
-      <p>Monitor the native Udemy player without changing its video stream or playback rate.</p>
+      <p>Request a bounded 60-second buffer from compatible Udemy players without changing playback rate.</p>
       <div class="field">
         <label for="showDiagnostics"><input type="checkbox" id="showDiagnostics" /> Show on-page diagnostics (default off)</label>
         <p class="hint">Displays the browser-reported buffered-ahead time for the current lecture.</p>
       </div>
       <button id="saveButton" type="button">Save settings</button><span id="status" aria-live="polite"></span>
-      <p class="footer">Udemy controls stream quality and maximum buffering. This extension does not force buffer size or create extra playback sessions.</p>
+      <p class="footer">Udemy can cap the request. This extension never forces unlimited buffering or creates extra playback sessions.</p>
     </div>
     <script src="options.js"></script>
   </body>

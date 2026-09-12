@@ -1,13 +1,14 @@
 # Course Stream Buffer
 
-Course Stream Buffer is a Chrome extension that monitors the native Udemy video buffer and applies only standard browser preload hints. It never changes playback speed or Udemy's internal player configuration.
+Course Stream Buffer requests a bounded 60-second buffer from compatible Udemy players. It never changes playback speed, calls `video.load()`, or opens additional playback sessions.
 
 ## Features
 
 - Applies `preload="auto"` to detected `<video>` elements.
-- Shows the browser-reported buffered-ahead time on demand.
+- Requests a 60-second player buffer exactly once when the compatible player becomes available.
+- Shows the browser-reported buffered-ahead time and player result on demand.
 - Optional in-page diagnostic overlay (hidden by default).
-- Does not call `video.load()` or alter private player state, avoiding MediaSource playback interruptions.
+- Does not call `video.load()` or reconfigure a player while you seek, avoiding MediaSource playback interruptions.
 
 ## Install
 
@@ -65,7 +66,7 @@ Public release page:
 
 ## Notes
 
-Udemy uses an adaptive MediaSource stream. The site, your connection, and its DRM/CDN controls determine buffer size; no Chrome extension can safely force unlimited buffering or create extra authenticated video sessions. This extension intentionally does not interfere with that pipeline.
+Udemy uses an adaptive MediaSource stream. The site, your connection, and its DRM/CDN controls can cap the configured goal, so 60 seconds is a request rather than a guarantee. The extension never forces unlimited buffering or creates extra authenticated video sessions.
 
 ## License
 

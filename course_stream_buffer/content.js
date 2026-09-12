@@ -4,6 +4,7 @@
   const STORAGE_KEY = "courseStreamShowDiagnostics";
   const OVERLAY_ID = "csb-debug-overlay";
   const ATTACH_MARK = "courseBufferAttached";
+  const BUFFER_TARGET_SECONDS = 60;
   const activeVideos = new Set();
   let showDiagnostics = false;
   let overlay;
@@ -54,7 +55,8 @@
       "Course Stream Buffer",
       `buffer ahead: ${Math.round(ahead)}s`,
       `network: ${video.networkState === HTMLMediaElement.NETWORK_LOADING ? "loading" : "idle"}`,
-      "mode: safe monitor (native player controls buffering)"
+      `target: ${BUFFER_TARGET_SECONDS}s`,
+      `player: ${document.documentElement.dataset.csbBufferStatus || "checking"}`
     ].join("\n");
   }
 
@@ -87,10 +89,12 @@
 
   function applySettings(values) {
     showDiagnostics = Boolean(values[STORAGE_KEY]);
+    document.documentElement.dataset.csbBufferTarget = String(BUFFER_TARGET_SECONDS);
     updateOverlay();
   }
 
   function bootstrap() {
+    document.documentElement.dataset.csbBufferTarget = String(BUFFER_TARGET_SECONDS);
     scan();
     new MutationObserver(scheduleScan).observe(document.documentElement, { childList: true, subtree: true });
     setInterval(scheduleScan, 5000);
