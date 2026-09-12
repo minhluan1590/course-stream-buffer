@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Course Stream Buffer",
+  "version": "1.0.0",
+  "description": "Keeps Udemy lectures buffered and shows live buffer diagnostics.",
+  "host_permissions": ["https://www.udemy.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.udemy.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}
+  
