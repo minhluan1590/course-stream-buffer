@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Course Stream Buffer",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Safely monitor Udemy lecture buffering with optional live diagnostics.",
   "permissions": [
     "storage"
@@ -15,8 +15,7 @@
     {
       "matches": ["https://www.udemy.com/*"],
       "js": ["content.js"],
-      "run_at": "document_start",
-      "world": "MAIN"
+      "run_at": "document_start"
     }
   ]
 }
