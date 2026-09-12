@@ -1,78 +1,76 @@
 # Course Stream Buffer
 
-Course Stream Buffer is a small Chrome extension that improves Udemy lecture loading by:
-
-- forcing `preload="auto"` on Udemy `<video>` elements,
-- continuously monitoring buffer windows while videos load,
-- attempting to raise supported player buffering goals up to 60 seconds (where the page exposes a compatible player API).
-
-This project is designed to run in your browser as an unpacked extension and is intentionally lightweight.
+Course Stream Buffer is a Chrome extension that improves Udemy lecture playback by keeping videos preloaded and re-checking buffers aggressively while moving between lessons.
 
 ## Features
 
-- Supports multiple active videos on the page.
-- Shows a live on-page overlay with:
-  - current buffered seconds ahead of playback,
-  - effective buffer goal status,
-  - inferred player capability status.
-- Keeps playback rate untouched (1x only).
+- Applies `preload="auto"` to detected `<video>` elements.
+- Continues monitoring player sessions for many lecture videos.
+- Attempts compatible player buffering goal changes on supported setups.
+- Optional in-page diagnostic overlay (hidden by default).
+- Optional unlimited buffering mode (best effort).
+- Fast re-check when skipping/seeking to reduce wait after jumps.
 
-## Install (recommended)
+## Install
 
-1. Open Chrome and go to `chrome://extensions/`.
-2. Enable **Developer mode**.
-3. Click **Load unpacked**.
-4. Select the `course_stream_buffer` directory in this repository.
-5. Open a Udemy lecture page and let the overlay confirm activity.
+1. Open `chrome://extensions/`
+2. Enable **Developer mode**
+3. Click **Load unpacked**
+4. Select `course_stream_buffer`
+5. Open a Udemy lecture page
+6. Open Extension options to tune behaviour
+
+## Extension options
+
+Open options from the extension card in `chrome://extensions/` → Details → Extension options:
+
+- Show diagnostics: enable/disable debug overlay (default off)
+- Buffer continuously: request a large/best-effort buffer
+- Target seconds: fixed seconds when not in unlimited mode
 
 ## How to know it is working
 
-You should see the floating overlay in the lower-right while on a lecture page:
+Enable diagnostics and open a Udemy video:
 
-- Green-ish text background: buffer is at or above 60s.
-- Amber: partial progress toward 60s.
-- Red: low buffered window.
+- **Green**: buffer is at/near the configured target.
+- **Amber**: partial buffering progress.
+- **Red**: buffer is currently low.
 
-If the overlay shows:
+If diagnostics is disabled (default), verify by jumping around videos quickly:
 
-- `goal 60s active` → a recognized player API accepted the buffering request.
-- `player not accessible ...` → the page player could not be directly configured.
+- the next segment should begin receiving data sooner than before,
+- fewer stalls should occur after fast navigation.
 
-Even when configuration is unavailable, the extension still keeps a browser-side preload hint active for every detected `<video>`.
+## Release package (compiled download)
 
-## Public release (GitHub)
+This repository ships release assets from GitHub Releases.
 
-You told me you want this published publicly under your account. I cannot perform authenticated publishing from this environment without your repository token/credentials, but you can publish fast:
+Workflow:
+- On tag push (`v*`) a `.zip` file is automatically built from `course_stream_buffer`.
+- The zip appears on the release page for that tag.
 
-```bash
-git init
-git add .
-git commit -m "Initial release of Course Stream Buffer"
-git branch -M main
-git remote add origin https://github.com/<your-username>/course-stream-buffer.git
-git push -u origin main
-```
-
-If your username is `minhluan1590`, use:
+Manual packaging:
 
 ```bash
-git remote set-url origin https://github.com/minhluan1590/course-stream-buffer.git
+zip -r course-stream-buffer.zip course_stream_buffer -x "*.DS_Store" "*.git/*"
 ```
+
+Public release page:
+`https://github.com/minhluan1590/course-stream-buffer/releases`
 
 ## Repository structure
 
-- `course_stream_buffer/manifest.json` - extension manifest.
-- `course_stream_buffer/content.js` - core buffering and detection logic.
-- `course_stream_buffer/icon16.png`, `course_stream_buffer/icon48.png`, `course_stream_buffer/icon128.png` - UI assets.
-- Legacy files from the previous baseline remain in this repository as `legacy_*` items and are not used by the published extension:
-  - `legacy_udemy_video_preloader.crx`, `legacy_udemy_video_preloader.pem`
-  - `legacy_screenshot1.png`, `legacy_screenshot2.png`
-  - `legacy_udemy_video_preloader`, `legacy_udemy_video_preloader_safe`
+- `course_stream_buffer/manifest.json`
+- `course_stream_buffer/content.js`
+- `course_stream_buffer/options.html`
+- `course_stream_buffer/options.js`
+- `course_stream_buffer/icon16.png`, `course_stream_buffer/icon48.png`, `course_stream_buffer/icon128.png`
+- `.github/workflows/release.yml`
+
+## Notes
+
+Not every Udemy player exposes a public buffering API. When player-side control is unavailable, the extension still helps via preload and recheck behavior.
 
 ## License
 
-MIT License.
-
-## Limitations and safety note
-
-Not all Udemy player builds expose a public JavaScript API for changing buffer goals. In those cases the extension behaves safely by only applying browser-level preload hints and transparent diagnostics.
+MIT

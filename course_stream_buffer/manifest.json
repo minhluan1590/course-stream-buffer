@@ -1,9 +1,16 @@
 {
   "manifest_version": 3,
   "name": "Course Stream Buffer",
-  "version": "1.0.0",
-  "description": "Keeps Udemy lectures buffered and shows live buffer diagnostics.",
+  "version": "1.2.0",
+  "description": "Keep Udemy lecture playback moving with aggressive buffering and optional live diagnostics.",
+  "permissions": [
+    "storage"
+  ],
   "host_permissions": ["https://www.udemy.com/*"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "content_scripts": [
     {
       "matches": ["https://www.udemy.com/*"],

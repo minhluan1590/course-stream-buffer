@@ -1,0 +1,9 @@
+legacy_screenshot1.png
+legacy_screenshot2.png
+legacy_udemy_video_preloader.crx
+legacy_udemy_video_preloader.pem
+legacy_udemy_video_preloader/
+legacy_udemy_video_preloader_safe/
+
+.DS_Store
+.artifacts/

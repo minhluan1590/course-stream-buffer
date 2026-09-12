@@ -1,0 +1,33 @@
+name: Release package
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and publish release assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Package extension
+        run: |
+          mkdir -p .artifacts
+          zip -r .artifacts/course-stream-buffer.zip \
+            course_stream_buffer \
+            -x "*.DS_Store" "*.git/*"
+
+      - name: Create GitHub release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v3
+        with:
+          files: .artifacts/course-stream-buffer.zip
+          generate_release_notes: true

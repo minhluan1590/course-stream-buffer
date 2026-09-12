@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Course Stream Buffer options</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 22px;
+      }
+
+      .box {
+        max-width: 680px;
+        border-radius: 12px;
+        padding: 16px;
+        border: 1px solid #3d3d3d;
+        background: #121212;
+      }
+
+      h1 {
+        margin-top: 0;
+        font-size: 21px;
+      }
+
+      .field {
+        margin: 16px 0;
+      }
+
+      label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      input[type="checkbox"],
+      input[type="number"] {
+        accent-color: #4dabf7;
+      }
+
+      .inline {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .hint {
+        opacity: 0.9;
+        margin-top: 6px;
+        color: #bbb;
+      }
+
+      .actions {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      button {
+        border: 1px solid #4dabf7;
+        background: #4dabf7;
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-weight: 600;
+      }
+
+      #status {
+        min-height: 18px;
+        color: #9fef9f;
+      }
+
+      .footer {
+        margin-top: 20px;
+        color: #999;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h1>Course Stream Buffer</h1>
+      <p>Tune how the extension buffers Udemy lecture playback.</p>
+
+      <div class="field">
+        <label class="inline" for="showDiagnostics">
+          <input type="checkbox" id="showDiagnostics" />
+          Show on-page diagnostics (default off)
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="inline" for="unlimitedBuffer">
+          <input type="checkbox" id="unlimitedBuffer" />
+          Buffer continuously (unlimited / best effort)
+        </label>
+        <div class="hint">When enabled, Udemy decides the maximum practical buffer.</div>
+      </div>
+
+      <div class="field">
+        <label class="inline" for="targetBufferSeconds">
+          <input type="number" id="targetBufferSeconds" min="1" max="3600" step="1" />
+          seconds target when not unlimited
+        </label>
+        <div class="hint">Enabled when “buffer continuously” is off.</div>
+      </div>
+
+      <div class="actions">
+        <button id="saveButton" type="button">Save settings</button>
+        <span id="status" aria-live="polite"></span>
+      </div>
+
+      <div class="footer">
+        Changes are synced automatically and applied to open Udemy tabs.
+      </div>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
