@@ -1,15 +1,13 @@
 # Course Stream Buffer
 
-Course Stream Buffer is a Chrome extension that improves Udemy lecture playback by keeping videos preloaded and re-checking buffers aggressively while moving between lessons.
+Course Stream Buffer is a Chrome extension that monitors the native Udemy video buffer and applies only standard browser preload hints. It never changes playback speed or Udemy's internal player configuration.
 
 ## Features
 
 - Applies `preload="auto"` to detected `<video>` elements.
-- Continues monitoring player sessions for many lecture videos.
-- Attempts compatible player buffering goal changes on supported setups.
+- Shows the browser-reported buffered-ahead time on demand.
 - Optional in-page diagnostic overlay (hidden by default).
-- Optional unlimited buffering mode (best effort).
-- Fast re-check when skipping/seeking to reduce wait after jumps.
+- Does not call `video.load()` or alter private player state, avoiding MediaSource playback interruptions.
 
 ## Install
 
@@ -25,16 +23,14 @@ Course Stream Buffer is a Chrome extension that improves Udemy lecture playback 
 Open options from the extension card in `chrome://extensions/` → Details → Extension options:
 
 - Show diagnostics: enable/disable debug overlay (default off)
-- Buffer continuously: request a large/best-effort buffer
-- Target seconds: fixed seconds when not in unlimited mode
 
 ## How to know it is working
 
 Enable diagnostics and open a Udemy video:
 
-- **Green**: buffer is at/near the configured target.
-- **Amber**: partial buffering progress.
-- **Red**: buffer is currently low.
+- **Green**: at least 30 seconds currently buffered.
+- **Amber**: 5–29 seconds currently buffered.
+- **Red**: under 5 seconds currently buffered.
 
 If diagnostics is disabled (default), verify by jumping around videos quickly:
 
@@ -69,7 +65,7 @@ Public release page:
 
 ## Notes
 
-Not every Udemy player exposes a public buffering API. When player-side control is unavailable, the extension still helps via preload and recheck behavior.
+Udemy uses an adaptive MediaSource stream. The site, your connection, and its DRM/CDN controls determine buffer size; no Chrome extension can safely force unlimited buffering or create extra authenticated video sessions. This extension intentionally does not interfere with that pipeline.
 
 ## License
 
